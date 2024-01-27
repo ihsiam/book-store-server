@@ -1,6 +1,8 @@
+// Dependences
 const bookCollection = require('../config/db');
 const { ObjectId } = require('mongodb');
 
+// Get all books
 exports.GetBooks = async (req, res) =>{
      // find from db
      const books = bookCollection.find();
@@ -10,6 +12,8 @@ exports.GetBooks = async (req, res) =>{
      res.send(result);
 }
 
+
+// Upload book
 exports.UploadBook = async (req, res) => {
      // get data 
      const data = req.body;
@@ -19,6 +23,8 @@ exports.UploadBook = async (req, res) => {
      res.send(result);
 }
 
+
+// Update a book
 exports.UpdateBook = async (req, res) => {
      // get the id
      const id = req.params.id;
@@ -38,6 +44,8 @@ exports.UpdateBook = async (req, res) => {
      res.send(result);
 }
 
+
+// Delete a book
 exports.DeleteBook = async (req, res) => {
      // get the id
      const id = req.params.id;

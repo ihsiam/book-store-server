@@ -1,5 +1,7 @@
-//
+// Dependences
 const { MongoClient, ServerApiVersion } = require('mongodb');
+
+// .env import
 require("dotenv").config();
 
 // uri define
@@ -14,6 +16,7 @@ const client = new MongoClient(uri, {
      }
 });
 
+// connect to db
 async function run() {
      try{
           // Connect the client to the server	(optional starting in v4.7)
@@ -25,6 +28,7 @@ async function run() {
      }
 }
 
+// Function run
 run();
 
 // Create db and collection

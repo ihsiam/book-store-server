@@ -1,8 +1,12 @@
 // dependencies 
 const express = require("express");
 const cors = require("cors");
-const route = require("./routes/route");
+
+// .env import
 require("dotenv").config();
+
+// Router import
+const router = require("./routes/route");
 
 // Express init
 const app = express();
@@ -14,7 +18,8 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-app.use(route);
+// All router implement
+app.use(router);
 
 // 404 page handle
 app.use((req, res, next) => {
@@ -29,5 +34,5 @@ app.use((err, req, res, next) => {
 
 // run server
 app.listen(port, () => {
-     console.log("App is running");
+     console.log("Server is running");
 });

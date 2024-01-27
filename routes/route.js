@@ -1,10 +1,17 @@
-const bookRoute = require('./bookRoute');
+// Controller import
 const { HomeRes } = require("../controllers/routerController");
 
-const route = require("express").Router();
+// Router define
+const router = require("express").Router();
 
-route.get('/', HomeRes);
+// Book route import
+const bookRouter = require('./bookRoute');
 
-route.use(bookRoute);
+// Server home page response
+router.get('/', HomeRes);
 
-module.exports = route;
+// Book router
+router.use(bookRouter);
+
+// Module export
+module.exports = router;

@@ -1,13 +1,20 @@
+// Controller import
 const { GetBooks, UploadBook, UpdateBook, DeleteBook } = require("../controllers/bookRouteController");
 
-const bookRoute = require("express").Router();
+// Book router define
+const bookRouter = require("express").Router();
 
-bookRoute.get('/allBooks', GetBooks);
+// Get all books
+bookRouter.get('/allBooks', GetBooks);
 
-bookRoute.post('/uploadBook', UploadBook);
+// Upload book
+bookRouter.post('/uploadBook', UploadBook);
 
-bookRoute.patch('/book/:id', UpdateBook);
+// Update a book
+bookRouter.patch('/book/:id', UpdateBook);
 
-bookRoute.delete('/book/:id', DeleteBook);
+// Delete a book
+bookRouter.delete('/book/:id', DeleteBook);
 
-module.exports = bookRoute;
+// Nodule export
+module.exports = bookRouter;
