@@ -9,6 +9,9 @@ Routes
 /allBooks (get method, for getting all books data)
 
 
+/book/id (get method, for single book data)
+
+
 /uploadBook (post method, upload book)
 
 
