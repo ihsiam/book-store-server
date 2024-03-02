@@ -1,5 +1,5 @@
 // Controller import
-const { GetBooks, UploadBook, UpdateBook, DeleteBook } = require("../controllers/bookRouteController");
+const { GetBooks, UploadBook, UpdateBook, DeleteBook, getBookData,  } = require("../controllers/bookRouteController");
 
 // Book router define
 const bookRouter = require("express").Router();
@@ -9,6 +9,9 @@ bookRouter.get('/allBooks', GetBooks);
 
 // Upload book
 bookRouter.post('/uploadBook', UploadBook);
+
+// get a book
+bookRouter.get('/book/:id', getBookData);
 
 // Update a book
 bookRouter.patch('/book/:id', UpdateBook);

@@ -23,6 +23,18 @@ exports.UploadBook = async (req, res) => {
      res.send(result);
 }
 
+// get a book
+exports.getBookData = async (req, res) => {
+     // get the id
+     const id = req.params.id;
+     // create a filter
+     const filter = { _id: new ObjectId(id) };
+     // find from db
+     const result = await bookCollection.findOne(filter);
+     //response send
+     res.send(result);
+}
+
 
 // Update a book
 exports.UpdateBook = async (req, res) => {
