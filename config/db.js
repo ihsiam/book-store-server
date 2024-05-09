@@ -32,7 +32,7 @@ async function run() {
 run();
 
 // Create db and collection
-const bookCollection = client.db("BookInventory").collection("Books");
+exports.bookCollection = client.db("BookInventory").collection("Books");
 
-// Module export
-module.exports = bookCollection;
+// Create user and collection
+exports.userCollection = client.db("BookInventory").collection("Users");

@@ -1,5 +1,6 @@
 // Controller import
 const { GetBooks, UploadBook, UpdateBook, DeleteBook, getBookData,  } = require("../controllers/bookRouteController");
+const auth = require("../middleware/auth");
 
 // Book router define
 const bookRouter = require("express").Router();
@@ -8,16 +9,16 @@ const bookRouter = require("express").Router();
 bookRouter.get('/allBooks', GetBooks);
 
 // Upload book
-bookRouter.post('/uploadBook', UploadBook);
+bookRouter.post('/uploadBook',auth, UploadBook);
 
 // get a book
 bookRouter.get('/book/:id', getBookData);
 
 // Update a book
-bookRouter.patch('/book/:id', UpdateBook);
+bookRouter.patch('/book/:id',auth, UpdateBook);
 
 // Delete a book
-bookRouter.delete('/book/:id', DeleteBook);
+bookRouter.delete('/book/:id',auth, DeleteBook);
 
 // Nodule export
 module.exports = bookRouter;

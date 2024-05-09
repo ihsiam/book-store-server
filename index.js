@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 
 // Server error handle
 app.use((err, req, res, next) => {
-     res.send("Server error");
+     res.send(err);
      console.log(err);
 })
 

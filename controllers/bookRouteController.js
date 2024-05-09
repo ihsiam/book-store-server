@@ -1,5 +1,5 @@
 // Dependences
-const bookCollection = require('../config/db');
+const {bookCollection} = require('../config/db');
 const { ObjectId } = require('mongodb');
 
 // Get all books
