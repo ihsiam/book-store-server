@@ -28,12 +28,11 @@ exports.register = async (req, res) => {
 
 exports.logIn = async (req, res) => {
     try{
-        console.log(req.body.email)
+        console.log(req.body.email);
         const user = await userCollection.findOne({ email: req.body.email });
-
+        console.log(user);
         if(user){
             const isValid = await bcrypt.compare(req.body.pass, user.pass);
-
             if (isValid) {
                 // token generate
                 const { email, _id } = user;
@@ -53,5 +52,6 @@ exports.logIn = async (req, res) => {
         }
     }catch (err) {
         res.status(500).json(err);
+        console.log(err);
     }
 }
