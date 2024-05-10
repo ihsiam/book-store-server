@@ -11,12 +11,14 @@ exports.register = async (req, res) => {
     const hashPass = await bcrypt.hash(req.body.pass, saltRounds);
 
     try{
-        const user = {
+        const userObj = {
+            user: req.body.user,
+            img: req.body.img,
             email : req.body.email,
             pass : hashPass,
         }
 
-        await userCollection.insertOne(user);
+        await userCollection.insertOne(userObj);
         res.status(200).json({
             msg: 'User created',
         });
@@ -28,15 +30,16 @@ exports.register = async (req, res) => {
 
 exports.logIn = async (req, res) => {
     try{
-        console.log(req.body.email);
-        const user = await userCollection.findOne({ email: req.body.email });
-        console.log(user);
-        if(user){
-            const isValid = await bcrypt.compare(req.body.pass, user.pass);
+        const userInfo = await userCollection.findOne({ email: req.body.email });
+
+        if(userInfo){
+            const isValid = await bcrypt.compare(req.body.pass, userInfo.pass);
             if (isValid) {
                 // token generate
-                const { email, _id } = user;
+                const { user, img, email, _id } = userInfo;
                 const jwtObj = {
+                    user,
+                    img,
                     email,
                     id: _id,
                 };
