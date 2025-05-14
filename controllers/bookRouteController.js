@@ -1,11 +1,12 @@
 // Dependences
-const {bookCollection} = require('../config/db');
+const Admin = require('../model/adminModel');
+const Book = require('../model/bookModel');
 const { ObjectId } = require('mongodb');
 
 // Get all books
 exports.GetBooks = async (req, res) =>{
      // find from db
-     const books = bookCollection.find();
+     const books = Book.find();
      // convert to array
      const result = await books.toArray();
      // response send
@@ -15,10 +16,23 @@ exports.GetBooks = async (req, res) =>{
 
 // Upload book
 exports.UploadBook = async (req, res) => {
-     // get data 
-     const data = req.body;
-     // insert data on db
-     const result = await bookCollection.insertOne(data);
+     const adminId = req.id;
+     const newbooks = new Book({
+                 ...req.body,
+                 adminId,
+             });
+     const result = await newbooks.save();
+     const { _id } = newbooks;
+     // add todo id into user model
+     await Admin.updateOne(
+          { _id: adminId },
+          {
+               $push: {
+               books: _id,
+               },
+               // eslint-disable-next-line comma-dangle
+          }
+     );
      // response send
      res.send(result);
 }
@@ -30,7 +44,7 @@ exports.getBookData = async (req, res) => {
      // create a filter
      const filter = { _id: new ObjectId(id) };
      // find from db
-     const result = await bookCollection.findOne(filter);
+     const result = await Book.findOne(filter);
      //response send
      res.send(result);
 }
@@ -51,7 +65,7 @@ exports.UpdateBook = async (req, res) => {
           $set: {...updateData},
           };
      // update on db
-     const result = await bookCollection.updateOne(filter, updateDoc, options);
+     const result = await Book.updateOne(filter, updateDoc, options);
      // response send
      res.send(result);
 }
@@ -59,12 +73,24 @@ exports.UpdateBook = async (req, res) => {
 
 // Delete a book
 exports.DeleteBook = async (req, res) => {
+     const adminId = req.id;
      // get the id
      const id = req.params.id;
      // create a filter
      const filter = { _id: new ObjectId(id) };
      // delete from db
-     const result = await bookCollection.deleteOne(filter);
+     const result = await  Book.deleteOne(filter);
+
+     // delete from user model
+     await Admin.updateOne(
+          { _id: adminId },
+          {
+               $pull: {
+               books: id,
+               },
+               // eslint-disable-next-line prettier/prettier
+          },
+     );
      //response send
      res.send(result);
 }

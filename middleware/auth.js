@@ -11,10 +11,10 @@ const auth = (req, res, next) => {
         // validation check
         const token = authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const { user, img, email, id } = decoded;
+        const { name, img, email, id } = decoded;
 
         // info send back
-        req.user = user;
+        req.name = name;
         req.img = img;
         req.email = email;
         req.id = id;

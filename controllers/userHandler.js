@@ -1,8 +1,8 @@
 // dependencies
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Admin = require('../model/adminModel');
 require('dotenv').config();
-const {userCollection} = require('../config/db')
 
 const saltRounds = 10;
 
@@ -11,17 +11,18 @@ exports.register = async (req, res) => {
     const hashPass = await bcrypt.hash(req.body.pass, saltRounds);
 
     try{
-        const userObj = {
-            user: req.body.user,
+
+         const admin = new Admin({
+            name: req.body.name,
             img: req.body.img,
             email : req.body.email,
-            pass : hashPass,
-        }
-
-        await userCollection.insertOne(userObj);
+            pass: hashPass,
+        });
+        await admin.save();
         res.status(200).json({
             msg: 'User created',
         });
+        
     }catch (err) {
         res.status(500).json(err);
     }
@@ -30,15 +31,15 @@ exports.register = async (req, res) => {
 
 exports.logIn = async (req, res) => {
     try{
-        const userInfo = await userCollection.findOne({ email: req.body.email });
+        const adminInfo = await Admin.findOne({ email: req.body.email });
 
-        if(userInfo){
-            const isValid = await bcrypt.compare(req.body.pass, userInfo.pass);
+        if(adminInfo){
+            const isValid = await bcrypt.compare(req.body.pass, adminInfo.pass);
             if (isValid) {
                 // token generate
-                const { user, img, email, _id } = userInfo;
+                const { name, img, email, _id } = adminInfo;
                 const jwtObj = {
-                    user,
+                    name,
                     img,
                     email,
                     id: _id,

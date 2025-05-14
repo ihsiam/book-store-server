@@ -1,6 +1,8 @@
 // dependencies 
 const express = require("express");
 const cors = require("cors");
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 // .env import
 require("dotenv").config();
@@ -17,6 +19,12 @@ const port = process.env.PORT || 4000;
 // middleware
 app.use(cors());
 app.use(express.json());
+
+// Database connection with mongoose
+mongoose
+    .connect(process.env.DB_URL)
+    .then(() => console.log('Connection successful'))
+    .catch((err) => console.error('MongoDB connection error:', err));
 
 // All router implement
 app.use(router);
